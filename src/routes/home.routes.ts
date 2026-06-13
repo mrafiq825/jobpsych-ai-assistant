@@ -32,7 +32,7 @@ router.get(
       uptime: {
         seconds: uptimeSeconds,
         human: `${Math.floor(uptimeSeconds / 3600)}h ${Math.floor(
-          (uptimeSeconds % 3600) / 60
+          (uptimeSeconds % 3600) / 60,
         )}m ${Math.floor(uptimeSeconds % 60)}s`,
       },
       timestamp: new Date().toISOString(),
@@ -98,17 +98,6 @@ router.get(
           path: `${config.apiPrefix}/ai/skill-gap`,
           description: "Skill gap analysis",
         },
-        {
-          method: "POST",
-          path: `${config.apiPrefix}/hiredesk/query`,
-          description:
-            "HireDesk - AI assistant for recruiters (screening, interviews, job postings, candidate matching)",
-        },
-        {
-          method: "GET",
-          path: `${config.apiPrefix}/hiredesk/status`,
-          description: "HireDesk service status and supported query types",
-        },
       ],
       workflow: {
         description: "Codebase request processing workflow",
@@ -137,7 +126,7 @@ router.get(
     logger.debug("Home route accessed", { uptimeSeconds });
 
     res.status(200).json({ success: true, data: info });
-  })
+  }),
 );
 
 export { router as homeRoutes };

@@ -8,7 +8,6 @@ import { errorHandler } from "./middleware/errorHandler";
 import { logger } from "./utils/logger";
 import { healthRoutes } from "./routes/health.routes";
 import { aiRoutes } from "./routes/ai.routes";
-import { hireDeskRoutes } from "./routes/hiredesk.routes";
 import { initializeAIService } from "./services/ai.service";
 import { config } from "./config/env";
 import { homeRoutes } from "./routes/home.routes";
@@ -16,15 +15,15 @@ import { homeRoutes } from "./routes/home.routes";
 dotenv.config();
 const requiredEnvVars = ["GEMINI_API_KEY"];
 const missingEnvVars = requiredEnvVars.filter(
-  (envVar) => !process.env[envVar] || process.env[envVar] === ""
+  (envVar) => !process.env[envVar] || process.env[envVar] === "",
 );
 
 if (missingEnvVars.length > 0) {
   console.error(
-    `Missing required environment variables: ${missingEnvVars.join(", ")}`
+    `Missing required environment variables: ${missingEnvVars.join(", ")}`,
   );
   console.error(
-    "Please check your .env file and ensure all required variables are set."
+    "Please check your .env file and ensure all required variables are set.",
   );
 }
 
@@ -40,7 +39,7 @@ app.use(
   cors({
     origin: config.corsOrigins,
     credentials: true,
-  })
+  }),
 );
 
 const limiter = rateLimit({
@@ -66,7 +65,6 @@ app.use("/", homeRoutes);
 
 app.use(`${API_PREFIX}/health`, healthRoutes);
 app.use(`${API_PREFIX}/ai`, aiRoutes);
-app.use(`${API_PREFIX}/hiredesk`, hireDeskRoutes);
 
 app.use((_req, res) => {
   res.status(404).json({
@@ -82,7 +80,7 @@ app.use(errorHandler);
 if (config.nodeEnv !== "test") {
   const server = app.listen(PORT, () => {
     logger.info(
-      `JobPsych AI Assistant server running on http://localhost:${PORT}`
+      `JobPsych AI Assistant server running on http://localhost:${PORT}`,
     );
     logger.info(`API available at http://localhost:${PORT}${API_PREFIX}`);
     logger.info(`Environment: ${NODE_ENV}`);
@@ -91,8 +89,8 @@ if (config.nodeEnv !== "test") {
     if (missingEnvVars.length > 0) {
       logger.warn(
         `Some AI features may be limited due to missing configuration: ${missingEnvVars.join(
-          ", "
-        )}`
+          ", ",
+        )}`,
       );
     } else {
       logger.info("All environment variables configured correctly");
